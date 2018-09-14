@@ -29,7 +29,7 @@
         <button v-if="phase=='drew phase'&&myCards.length!=13" @click="drewCard">抽牌</button>
         <button v-if="phase=='play phase'" @click="playCard">出牌</button>
         <button v-if="phase=='play phase'" >提示</button>
-        <button v-if="phase=='play phase'" >pass</button>
+        <button v-if="phase=='play phase'" @click="pass" >pass</button>
 
       </div>
       <h3>我的牌</h3>

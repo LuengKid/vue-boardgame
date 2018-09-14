@@ -3,25 +3,25 @@ import {
   TurnOrder
 } from 'boardgame.io/core'
 
-const Rules = (function(){
+const Rules = (function () {
   let rules = {}
 
-  rules.max = (cards)=>{
+  rules.max = (cards) => {
     let plays = cards.sort((a, b) => {
       if (a.number != b.number) {
         //2最大
-        if(a.number==2){
+        if (a.number == 2) {
           return 1;
         }
-        if(b.number ==2){
-          return-1;
+        if (b.number == 2) {
+          return -1;
         }
         //A第二
-        if(a.number==1){
+        if (a.number == 1) {
           return 1;
         }
-        if(b.number ==1){
-          return-1;
+        if (b.number == 1) {
+          return -1;
         }
         return Number(a.number) - Number(b.number);
       } else {
@@ -31,7 +31,7 @@ const Rules = (function(){
     return plays.slice(-1);
   }
 
-  rules.type=(cards)=>{
+  rules.type = (cards) => {
     let plays = cards.sort((a, b) => {
       if (a.number != b.number) {
         return Number(a.number) - Number(b.number);
@@ -39,101 +39,134 @@ const Rules = (function(){
         return b.type.localeCompare(a.type);
       }
     });
-    if(cards.length==1){
-      return {type:'1',card:plays[0]};
-    }else if(cards.length==2){
-      if(cards[0].number==cards[1].number){
-        return {type:'2',card:plays[1]};
-      }else{
+    if (cards.length == 1) {
+      return {
+        type: '1',
+        card: plays[0]
+      };
+    } else if (cards.length == 2) {
+      if (cards[0].number == cards[1].number) {
+        return {
+          type: '2',
+          card: plays[1]
+        };
+      } else {
         return false;
       }
-    }else if(cards.length==3){
-      if(cards[0].number==cards[1].number&&cards[0].number==cards[2].number){
-        return {type:'3',card:plays[2]};
-      }else{
+    } else if (cards.length == 3) {
+      if (cards[0].number == cards[1].number && cards[0].number == cards[2].number) {
+        return {
+          type: '3',
+          card: plays[2]
+        };
+      } else {
         return false;
       }
-    }else if(cards.length==4){
-      if(cards[0].number==cards[1].number&&cards[0].number==cards[2].number&&cards[0].number==cards[3].number){
-        return {type:'4',card:plays[3]};
-      }else{
+    } else if (cards.length == 4) {
+      if (cards[0].number == cards[1].number && cards[0].number == cards[2].number && cards[0].number == cards[3].number) {
+        return {
+          type: '4',
+          card: plays[3]
+        };
+      } else {
         return false;
       }
-    }else if(cards.length==5){
+    } else if (cards.length == 5) {
       let flush = true;
       let straight = true;
       let suit = plays[0].type;
       let min = plays[0].number;
       for (let i = 0; i < plays.length; i++) {
         const c = plays[i];
-        if(c.type!=suit){
+        if (c.type != suit) {
           flush = false;
         }
-        if(c.number-min!=i){
+        if (c.number - min != i) {
           straight = false;
         }
       }
       // 10,J,Q,K,A
-      if(plays[0].number==1&&plays[1].number==10&&plays[2].number==11&&plays[3].number==12&&plays[4].number==13){
+      if (plays[0].number == 1 && plays[1].number == 10 && plays[2].number == 11 && plays[3].number == 12 && plays[4].number == 13) {
         straight = true;
       }
       // 3+2
-      if(plays[0].number==plays[1].number&&plays[1].number==plays[2].number&&plays[3].number==plays[4].number){
-        return {type:'3+2',card:plays[2]};
+      if (plays[0].number == plays[1].number && plays[1].number == plays[2].number && plays[3].number == plays[4].number) {
+        return {
+          type: '3+2',
+          card: plays[2]
+        };
       }
       // 2+3
-      if(plays[0].number==plays[1].number&&plays[2].number==plays[3].number&&plays[3].number==plays[4].number){
-        return {type:'3+2',card:plays[4]};
+      if (plays[0].number == plays[1].number && plays[2].number == plays[3].number && plays[3].number == plays[4].number) {
+        return {
+          type: '3+2',
+          card: plays[4]
+        };
       }
       // 4+1
-      if(plays[0].number==plays[1].number&&plays[1].number==plays[2].number&&plays[2].number==plays[3].number){
-        return {type:'4+1',card:plays[3]};
+      if (plays[0].number == plays[1].number && plays[1].number == plays[2].number && plays[2].number == plays[3].number) {
+        return {
+          type: '4+1',
+          card: plays[3]
+        };
       }
       //1+4
-      if(plays[1].number==plays[2].number&&plays[2].number==plays[3].number&&plays[3].number==plays[4].number){
-        return {type:'4+1',card:plays[4]};
+      if (plays[1].number == plays[2].number && plays[2].number == plays[3].number && plays[3].number == plays[4].number) {
+        return {
+          type: '4+1',
+          card: plays[4]
+        };
       }
-      if(flush&&straight){
-        return {type:'fs',card:rules.max(cards)};
-      }else if(flush){
-        return {type:'f',card:rules.max(cards)};
-      }else if(straight){
-        return {type:'s',card:rules.max(cards)};
+      if (flush && straight) {
+        return {
+          type: 'fs',
+          card: rules.max(cards)
+        };
+      } else if (flush) {
+        return {
+          type: 'f',
+          card: rules.max(cards)
+        };
+      } else if (straight) {
+        return {
+          type: 's',
+          card: rules.max(cards)
+        };
       }
       return false;
     }
     return false;
   }
-  rules.compare=(a,b)=>{
+  rules.compare = (a, b) => {
     let type_a = rules.type(a);
     let type_b = rules.type(b);
-    if(!type_a){
+    if (!type_a) {
       return false;
     }
-    if(!type_b){
+    if (!type_b) {
       return true;
     }
-    if(type_a.type==type_b.type){
+    if (type_a.type == type_b.type) {
       let num_a = type_a.card.number;
       let num_b = type_b.card.number;
-      if(num_a!=num_b){
+      if (num_a != num_b) {
         // 2最大
-        if(num_a==2){
+        if (num_a == 2) {
           return true;
         }
-        if(num_b==2){
+        if (num_b == 2) {
           return false;
         }
         // A第二
-        if(num_a==1){
+        if (num_a == 1) {
           return true;
         }
-        if(num_b==1){
+        if (num_b == 1) {
           return false;
         }
-        return num_a-num_b>0;
-      }else{
-        return type_b.card.type.localeCompare(type_a.card.type)>0;
+        return num_a - num_b > 0;
+      } else {
+        return type_b.card.type.localeCompare(type_a.card.type) > 0;
       }
     }
   }
@@ -181,7 +214,7 @@ const state = {
   desk: []
 };
 state.cards = state.cards.sort((a, b) => {
-  return 0.5-Math.random();
+  return 0.5 - Math.random();
 });
 
 export const Earth2 = Game({
@@ -222,35 +255,47 @@ export const Earth2 = Game({
     },
     playCard(G, ctx, cardIds) {
       let ids = [...cardIds];
-      if(ids.length==0){
+      if (ids.length == 0) {
         return;
       }
-      
+
       let player = ctx.playerID;
       let cards = [...G.cards];
       let desk = [...G.desk];
 
-      if(desk.length==0){
+      if (desk.length == 0) {
         //第一次出牌不包含D3,非法
-        if(ids.indexOf(8)==-1){
+        if (ids.indexOf(11) == -1) {
           return;
         }
       }
-      
+
+
       let plays = cards.filter(c => ids.indexOf(c.id) != -1);
+
+
       for (let i = 0; i < plays.length; i++) {
         let card = plays[i];
-        if (card.owner == player && card.play == false) {
-          card.play = true;
+        if (card.owner == player && card.play == false) {} else {
+          return;
+        }
+      }
+      let type = Rules.type(plays);
+      if (type == false) {
+        return;
+      }
+
+      if (desk.length > 0) {
+        if (G.lastPlayer == player) {
+
         } else {
-          return;
+          let compare = Rules.compare(plays, desk.slice(-1)[0]);
+          if (!compare) {
+            return;
+          }
         }
       }
-      if(desk.length>0){
-        if(!Rules.compare(plays,desk.slice(-1))){
-          return;
-        }
-      }
+      plays.forEach(c => c.play = true);
       desk.push(plays);
       return { ...G,
         cards,
@@ -258,8 +303,9 @@ export const Earth2 = Game({
         desk
       };
     },
-    pass(G,ctx){
-      return {...G};
+    pass(G, ctx) {
+      return { ...G
+      };
     }
 
   },
@@ -272,20 +318,23 @@ export const Earth2 = Game({
       },
       {
         name: 'play phase',
-        allowedMoves: ['playCard'],
+        allowedMoves: ['playCard', 'pass'],
         movesPerTurn: 1,
-        endGameIf:(G, ctx)=>{
+        endGameIf: (G, ctx) => {
           let player = ctx.currentPlayer;
-          let playedCard = G.cards.filter(c=>c.owner==player&&c.play==true);
-          if(playedCard.length==13){
+          let playedCard = G.cards.filter(c => c.owner == player && c.play == true);
+          if (playedCard.length == 13) {
             return player;
           }
         },
         turnOrder: {
           first: (G, ctx) => {
             let D3 = G.cards.find(c => c.number == 3 && c.type == 'D');
+            let pos = (parseInt(D3.owner) + 3) % 4;
             if (D3) {
-              return {playOrderPos:parseInt(D3.owner)};
+              return {
+                playOrderPos: pos
+              };
             }
             return 0;
           },
