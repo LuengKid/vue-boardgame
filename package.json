@@ -1,0 +1,33 @@
+{
+  "name": "vue-boardgame",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "server": "babel-watch --presets env -p babel-plugin-transform-object-rest-spread ./server/index.js"
+  },
+  "dependencies": {
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.47",
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-plugin-eslint": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "axios": "^0.18.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^2.0.7",
+    "boardgame.io": "^0.25.5",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "lint-staged": "^7.2.2",
+    "vue-meta": "^1.5.3",
+    "vue-template-compiler": "^2.5.17"
+  }
+}
