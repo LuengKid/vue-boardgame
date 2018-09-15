@@ -30,9 +30,13 @@ npm run dev
 #### 抽牌阶段 drew phase
 1. 全部玩家:点击抽牌按钮 -> 抽取13张牌
 
+![image](https://github.com/LuengKid/vue-boardgame/raw/master/demo1.gif)
+
 #### 出牌阶段 play phase
 1. 方块三玩家:首先出牌
 2. 全部玩家:按照规则轮流出牌或pass -> 首先将13张牌出完为胜利者
+
+![image](https://github.com/LuengKid/vue-boardgame/raw/master/demo2.gif)
 
 ## 开发计划
 
