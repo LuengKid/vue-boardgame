@@ -14,7 +14,7 @@ npm install
 npm run server
 ```
 
-### 开启客户端
+### 开启客户端 http://localhost:8080
 ```
 npm run dev
 ```
@@ -43,4 +43,5 @@ npm run dev
 ## 联系作者
 
 email : 100520140@qq.com
-qq交流群: 879259736 (验证信息:)
+
+qq交流群: 879259736 (验证信息:boardgame)
